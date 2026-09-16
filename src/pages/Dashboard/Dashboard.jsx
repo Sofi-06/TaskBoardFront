@@ -1,0 +1,11 @@
+import Sidebar from '../../components/Sidebar/Sidebar'
+import './Dashboard.css'
+
+const courses = [['Matemáticas', '3 tareas · Parcial mañana', 'orange'], ['Inglés', '2 tareas · Presentación 21 sep', 'blue'], ['Sociales', '2 tareas · Ensayo 18 sep', 'green'], ['Programación', '3 tareas · Proyecto 23 sep', 'red']]
+const tasks = [['MATEMÁTICAS', 'Parcial de Matemáticas', 'Mañana', 'Alta', 'orange'], ['SOCIALES', 'Ensayo de Sociales', '18 sep', 'Alta', 'green'], ['MATEMÁTICAS', 'Ejercicios de integrales', '20 sep', 'Media', 'orange']]
+
+export default function Dashboard() {
+  return <main className="dashboard"><Sidebar /><section className="dashboard-content"><header className="topbar"><span>Miércoles · 16 de septiembre</span><div><button className="semester">Ingeniería · 3.er semestre</button><span className="profile">S</span></div></header><div className="dashboard-inner"><div className="welcome"><div><h1>Buenas tardes, Sofía 👋</h1><p>Tienes 7 tareas activas y 7 entregas por venir.</p></div><button className="new-task">＋ Nueva tarea</button></div><div className="stats"><Stat value="4" label="PENDIENTES" color="orange" /><Stat value="3" label="EN PROCESO" color="blue" /><Stat value="3" label="COMPLETADAS" color="green" /><Stat value="7" label="PRÓXIMAS ENTREGAS" color="red" /></div><SectionTitle title="Mis cursos" subtitle="Entra a un curso para ver su tablero." action="VER TODOS" /><div className="course-grid">{courses.map(([name, detail, color]) => <article className={`course-card ${color}`} key={name}><i /><h3>{name}</h3><p>{detail}</p></article>)}</div><SectionTitle title="Próximas tareas" subtitle="Ordenadas por fecha de entrega." /><div className="task-list">{tasks.map(([course, name, date, priority, color]) => <article className="task-row" key={name}><div><span className={`task-dot ${color}`} /> <small>{course}</small><h3>{name}</h3><p>{date}</p></div><span className={`priority ${priority.toLowerCase()}`}>{priority}</span></article>)}</div></div></section></main>
+}
+function Stat({ value, label, color }) { return <article className="stat-card"><i className={color} /><strong>{value}</strong><small>{label}</small></article> }
+function SectionTitle({ title, subtitle, action }) { return <div className="section-title"><div><h2>{title}</h2><p>{subtitle}</p></div>{action && <a href="#courses">{action}</a>}</div> }

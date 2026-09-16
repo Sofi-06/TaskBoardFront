@@ -1,0 +1,12 @@
+@import '../../App.css';
+:root { font-family: Arial, Helvetica, sans-serif; color: #30261f; background: #fffdf8; }
+* { box-sizing: border-box; }
+.auth-form h2 { margin: 0 0 8px; color: #17120e; line-height: 1.1; }
+.auth-form .subtitle { margin: 0 0 34px; color: #987961; font-size: 18px; }
+.auth-form label { display: block; margin: 0 0 8px; color: #987961; font-family: monospace; letter-spacing: 3px; font-size: 12px; }
+.auth-form input { width: 100%; padding: 0 18px; border: 3px solid #30261f; border-radius: 13px; background: #fff; color: #17120e; font: 18px Arial; outline: none; }
+.auth-form button { width: 100%; height: 56px; border: 3px solid #30261f; border-radius: 13px; background: #ff7d2b; box-shadow: 6px 6px 0 #30261f; color: white; font-size: 18px; font-weight: 700; cursor: pointer; }
+.auth-page { min-height: 100vh; display: grid; grid-template-columns: 54% 46%; background: #fffdf8; }
+.auth-art { position: relative; overflow: hidden; padding: clamp(32px, 5vw, 76px); background: #fff0df; border-right: 3px solid #30261f; }.auth-art::after { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: #ffe7cf; right: -160px; top: 15%; }.auth-message { position: relative; z-index: 1; margin-top: 28vh; max-width: 580px; }.auth-message h1 { font-size: clamp(42px, 4vw, 62px); }.auth-message h1 span { color: #ff7d2b; }.auth-message p { color: #987961; font-size: 20px; max-width: 470px; }.auth-panel { display: grid; place-items: center; padding: 40px 9%; }.auth-form { width: min(100%, 650px); }.auth-form h2 { font-size: 34px; }.auth-form label { margin-top: 2px; }.auth-form input { height: 58px; margin-bottom: 20px; }.auth-form button { margin-top: 4px; }.auth-form button span { float: right; font-size: 28px; line-height: 16px; }.auth-link { margin-top: 30px; text-align: center; color: #987961; font-size: 16px; }.auth-link a { color: #f36f25; font-weight: 700; }.form-success { color: #4b7d49; text-align: center; }.auth-form input::placeholder { color: #a99482; }
+.form-error { margin: 14px 0; color: #b33b2e; font-size: 14px; text-align: center; }
+@media (max-width: 800px) { .auth-page { grid-template-columns: 1fr; }.auth-art { min-height: 38vh; border-right: 0; border-bottom: 3px solid #30261f; }.auth-message { margin-top: 10vh; }.auth-panel { padding: 50px 8%; } }
