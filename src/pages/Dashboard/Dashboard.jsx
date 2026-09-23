@@ -1,11 +1,27 @@
+import { useEffect, useState } from 'react'
 import Sidebar from '../../components/Sidebar/Sidebar'
+import NewTaskModal from '../../components/tasks/NewTaskModal'
+import { getDashboard } from '../../services/dashboardService'
 import './Dashboard.css'
 
-const courses = [['Matemáticas', '3 tareas · Parcial mañana', 'orange'], ['Inglés', '2 tareas · Presentación 21 sep', 'blue'], ['Sociales', '2 tareas · Ensayo 18 sep', 'green'], ['Programación', '3 tareas · Proyecto 23 sep', 'red']]
-const tasks = [['MATEMÁTICAS', 'Parcial de Matemáticas', 'Mañana', 'Alta', 'orange'], ['SOCIALES', 'Ensayo de Sociales', '18 sep', 'Alta', 'green'], ['MATEMÁTICAS', 'Ejercicios de integrales', '20 sep', 'Media', 'orange']]
+const colors = ['orange', 'blue', 'green', 'red']
+const dateFormatter = new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'short' })
 
 export default function Dashboard() {
-  return <main className="dashboard"><Sidebar /><section className="dashboard-content"><header className="topbar"><span>Miércoles · 16 de septiembre</span><div><button className="semester">Ingeniería · 3.er semestre</button><span className="profile">S</span></div></header><div className="dashboard-inner"><div className="welcome"><div><h1>Buenas tardes, Sofía 👋</h1><p>Tienes 7 tareas activas y 7 entregas por venir.</p></div><button className="new-task">＋ Nueva tarea</button></div><div className="stats"><Stat value="4" label="PENDIENTES" color="orange" /><Stat value="3" label="EN PROCESO" color="blue" /><Stat value="3" label="COMPLETADAS" color="green" /><Stat value="7" label="PRÓXIMAS ENTREGAS" color="red" /></div><SectionTitle title="Mis cursos" subtitle="Entra a un curso para ver su tablero." action="VER TODOS" /><div className="course-grid">{courses.map(([name, detail, color]) => <article className={`course-card ${color}`} key={name}><i /><h3>{name}</h3><p>{detail}</p></article>)}</div><SectionTitle title="Próximas tareas" subtitle="Ordenadas por fecha de entrega." /><div className="task-list">{tasks.map(([course, name, date, priority, color]) => <article className="task-row" key={name}><div><span className={`task-dot ${color}`} /> <small>{course}</small><h3>{name}</h3><p>{date}</p></div><span className={`priority ${priority.toLowerCase()}`}>{priority}</span></article>)}</div></div></section></main>
+  const [dashboard, setDashboard] = useState(null)
+  const [error, setError] = useState('')
+  const [showTaskModal, setShowTaskModal] = useState(false)
+  const loadDashboard = () => getDashboard().then(setDashboard).catch((requestError) => setError(requestError.message))
+  useEffect(() => { loadDashboard() }, [])
+  const user = dashboard?.user || JSON.parse(localStorage.getItem('user') || '{}')
+  const stats = dashboard?.stats || { pending: 0, inProgress: 0, completed: 0, upcoming: 0, active: 0 }
+  const firstName = user.name?.split(' ')[0] || 'estudiante'
+  const courses = dashboard?.courses || []
+  const tasks = dashboard?.upcomingTasks || []
+
+  return <main className="dashboard"><Sidebar /><section className="dashboard-content"><header className="topbar"><span>{new Intl.DateTimeFormat('es-CO', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}</span><div><button className="semester">Mis cursos</button><span className="profile">{firstName.charAt(0).toUpperCase()}</span></div></header><div className="dashboard-inner">{error && <div className="dashboard-error">No se pudieron cargar tus datos: {error}</div>}<div className="welcome"><div><h1>Buenas tardes, {firstName} 👋</h1><p>Tienes {stats.active} tareas activas y {stats.upcoming} entregas por venir.</p></div><button className="new-task" onClick={() => setShowTaskModal(true)}>＋ Nueva tarea</button></div><div className="stats"><Stat value={stats.pending} label="PENDIENTES" color="orange" /><Stat value={stats.inProgress} label="EN PROCESO" color="blue" /><Stat value={stats.completed} label="COMPLETADAS" color="green" /><Stat value={stats.upcoming} label="PRÓXIMAS ENTREGAS" color="red" /></div><SectionTitle title="Mis cursos" subtitle="Entra a un curso para ver su tablero." action="VER TODOS" /><div className="course-grid">{courses.map((course, index) => <article className={`course-card ${colors[index % colors.length]}`} key={course.id}><i /><h3>{course.name}</h3><p>{course.taskCount} {course.taskCount === 1 ? 'tarea' : 'tareas'} {course.nextTask?.title ? `· ${course.nextTask.title}` : '· Sin entregas próximas'}</p></article>)}{!courses.length && !error && <p className="empty-state">Aún no tienes cursos registrados.</p>}</div><SectionTitle title="Próximas tareas" subtitle="Ordenadas por fecha de entrega." /><div className="task-list">{tasks.map((task) => <article className="task-row" key={task.id}><div><span className={`task-dot ${task.course.color || 'orange'}`} /> <small>{task.course.name.toUpperCase()}</small><h3>{task.title}</h3><p>{task.dueDate ? dateFormatter.format(new Date(task.dueDate)) : 'Sin fecha'}</p></div><span className={`priority ${task.priority.toLowerCase()}`}>{priorityLabel(task.priority)}</span></article>)}{!tasks.length && <p className="empty-state">No tienes entregas próximas.</p>}</div></div></section>{showTaskModal && <NewTaskModal courses={courses} onClose={() => setShowTaskModal(false)} onCreated={() => { setShowTaskModal(false); setError(''); loadDashboard() }} />}</main>
 }
+
+function priorityLabel(priority) { return ({ HIGH: 'Alta', MEDIUM: 'Media', LOW: 'Baja' })[priority] || priority }
 function Stat({ value, label, color }) { return <article className="stat-card"><i className={color} /><strong>{value}</strong><small>{label}</small></article> }
 function SectionTitle({ title, subtitle, action }) { return <div className="section-title"><div><h2>{title}</h2><p>{subtitle}</p></div>{action && <a href="#courses">{action}</a>}</div> }

@@ -1,0 +1,14 @@
+import { useEffect, useState } from 'react'
+import Sidebar from '../../components/Sidebar/Sidebar'
+import CreateCourseModal from './CreateCourseModal'
+import { apiRequest } from '../../services/api'
+import '../../components/tasks/NewTaskModal.css'
+import './Courses.css'
+
+const colors = ['orange', 'blue', 'green', 'red']; const dateFormatter = new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'short' })
+export default function Courses() {
+  const [courses, setCourses] = useState([]); const [error, setError] = useState(''); const [showModal, setShowModal] = useState(false)
+  const loadCourses = () => apiRequest('/courses?limit=100').then((response) => setCourses(response.data || [])).catch((requestError) => setError(requestError.message))
+  useEffect(() => { loadCourses() }, [])
+  return <main className="courses-page"><Sidebar active="courses" /><section className="dashboard-content"><header className="topbar"><span>{new Intl.DateTimeFormat('es-CO', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date())}</span><div><button className="semester">Ingeniería · 3.er semestre</button><span className="profile">{(JSON.parse(localStorage.getItem('user') || '{}').name || 'E').charAt(0).toUpperCase()}</span></div></header><div className="courses-inner"><div className="courses-heading"><div><h1>Mis cursos</h1><p>{courses.length} {courses.length === 1 ? 'curso' : 'cursos'} en este semestre</p></div><button className="new-task" onClick={() => setShowModal(true)}>＋ Crear curso</button></div>{error && <div className="dashboard-error">No se pudieron cargar tus cursos: {error}</div>}<div className="courses-grid">{courses.map((course, index) => { const nextTask = course.tasks?.find((task) => task.dueDate && task.status !== 'COMPLETED'); return <article className={`course-page-card ${colors[index % colors.length]}`} key={course.id} onClick={() => { window.location.hash = `course/${course.id}` }}><i /><h2>{course.name}</h2><p>{course.tasks?.length || 0} {course.tasks?.length === 1 ? 'tarea' : 'tareas'} {nextTask ? `· ${nextTask.title} ${dateFormatter.format(new Date(nextTask.dueDate))}` : '· Sin entregas próximas'}</p></article> })}{!courses.length && !error && <p className="empty-courses">Aún no tienes cursos. Crea el primero.</p>}</div></div></section>{showModal && <CreateCourseModal onClose={() => setShowModal(false)} onCreated={() => { setShowModal(false); loadCourses() }} />}</main>
+}

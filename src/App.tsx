@@ -6,6 +6,12 @@ import Register from './pages/Register/Register'
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword'
 // @ts-expect-error Dashboard remains a JSX page in the existing frontend structure.
 import Dashboard from './pages/Dashboard/Dashboard'
+// @ts-expect-error Courses remains JS to match the existing page structure.
+import Courses from './pages/Courses/Courses'
+// @ts-expect-error Board remains JS to match the existing page structure.
+import Board from './pages/Board/Board'
+// @ts-expect-error Calendar remains JS to match the existing page structure.
+import Calendar from './pages/Calendar/Calendar'
 import { useEffect, useState } from 'react'
 
 function App() {
@@ -14,6 +20,10 @@ function App() {
   if (route === '#register') return <Register />
   if (route === '#forgot-password') return <ForgotPassword />
   if (route === '#dashboard') return <Dashboard />
+  if (route === '#courses') return <Courses />
+  if (route === '#board') return <Board />
+  if (route === '#calendar') return <Calendar />
+  if (route.startsWith('#course/')) return <Board courseId={route.split('/')[1]} />
   return <Login />
 }
 

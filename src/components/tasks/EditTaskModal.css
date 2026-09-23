@@ -1,0 +1,1 @@
+.modal-actions-edit { justify-content: flex-start; }.modal-actions-edit span { flex: 1; }.delete-button { padding: 10px 15px; border: 2px solid #30261f; border-radius: 10px; box-shadow: 4px 4px 0 #30261f; background: #e84263; color: white; font-weight: 700; cursor: pointer; }.delete-button:disabled { opacity: .6; }
