@@ -1,0 +1,1 @@
+.board-task { cursor: grab; }.board-task:active { cursor: grabbing; }.board-column.drop-ready { min-height: 260px; border-radius: 16px; background: rgba(255, 125, 43, .06); }.board-column.drop-ready .board-task { transition: transform .15s ease; }
