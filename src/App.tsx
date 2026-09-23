@@ -12,6 +12,8 @@ import Courses from './pages/Courses/Courses'
 import Board from './pages/Board/Board'
 // @ts-expect-error Calendar remains JS to match the existing page structure.
 import Calendar from './pages/Calendar/Calendar'
+// @ts-expect-error Reset password remains JS to match the existing page structure.
+import ResetPassword from './pages/ResetPassword/ResetPassword'
 import { useEffect, useState } from 'react'
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
   useEffect(() => { const onHashChange = () => setRoute(window.location.hash); window.addEventListener('hashchange', onHashChange); return () => window.removeEventListener('hashchange', onHashChange) }, [])
   if (route === '#register') return <Register />
   if (route === '#forgot-password') return <ForgotPassword />
+  if (route.startsWith('#reset-password/')) return <ResetPassword token={route.split('/')[1]} />
   if (route === '#dashboard') return <Dashboard />
   if (route === '#courses') return <Courses />
   if (route === '#board') return <Board />
