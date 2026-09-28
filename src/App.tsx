@@ -14,6 +14,8 @@ import Board from './pages/Board/Board'
 import Calendar from './pages/Calendar/Calendar'
 // @ts-expect-error Reset password remains JS to match the existing page structure.
 import ResetPassword from './pages/ResetPassword/ResetPassword'
+// @ts-expect-error Archived remains JS to match the existing page structure.
+import Archived from './pages/Archived/Archived'
 import { useEffect, useState } from 'react'
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
   if (route === '#courses') return <Courses />
   if (route === '#board') return <Board />
   if (route === '#calendar') return <Calendar />
+  if (route === '#archived') return <Archived />
   if (route.startsWith('#course/')) return <Board courseId={route.split('/')[1]} />
   return <Login />
 }

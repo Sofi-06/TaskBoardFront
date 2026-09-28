@@ -1,1 +1,64 @@
 html, body, #root { width: 100%; min-width: 320px; min-height: 100%; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+main > .dashboard-content { min-width: 0; flex: 1; }
+main > .dashboard-content { display: block; width: auto; }
+button, input, textarea, select { max-width: 100%; }
+
+@media (max-width: 1100px) {
+  .sidebar { width: 240px; flex-basis: 240px; padding-left: 18px; padding-right: 18px; }
+  .topbar { padding-left: 32px; padding-right: 28px; }
+  .dashboard-inner, .courses-inner, .calendar-inner, .archived-inner { padding-left: 32px; padding-right: 32px; }
+  .calendar-layout { grid-template-columns: minmax(0, 1.8fr) minmax(230px, 1fr); }
+}
+
+@media (max-width: 650px) {
+  .dashboard, .board-page, .calendar-page, .courses-page, .archived-page { display: block !important; min-height: 100vh; }
+  main > .dashboard-content { display: block !important; width: 100% !important; min-height: 0; }
+  .sidebar { width: 100%; min-height: 0; padding: 14px 12px 12px; border-right: 0; border-bottom: 3px solid #30261f; }
+  .side-brand { margin: 0 6px 14px; font-size: 21px; }
+  .side-brand .brand-mark { width: 38px; height: 36px; }
+  .sidebar nav { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; }
+  .sidebar nav a { height: 58px; padding: 5px 2px; justify-content: center; flex-direction: column; gap: 4px; border-radius: 11px; font-size: 10px; text-align: center; }
+  .sidebar nav a.active { box-shadow: 3px 3px 0 #ff7d2b; }
+  .sidebar nav a span { width: 19px; height: 19px; }
+  .sidebar nav svg { width: 18px; height: 18px; }
+  .side-user { display: none; }
+  .topbar { height: 70px; padding: 0 16px; }
+  .topbar > span { max-width: 68%; overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+  .profile { width: 40px; height: 40px; box-shadow: 3px 3px 0 #30261f; }
+  .dashboard-inner, .board-inner, .courses-inner, .calendar-inner, .archived-inner { padding: 28px 16px 48px; }
+  .welcome h1 { font-size: clamp(30px, 9vw, 39px); }
+  .welcome p, .section-title p { font-size: 15px; }
+  .new-task { width: 100%; height: 52px; padding: 0 16px; font-size: 16px; }
+  .welcome, .courses-heading, .board-heading { align-items: stretch; gap: 20px; flex-direction: column; }
+  .stats, .course-grid, .courses-grid { grid-template-columns: 1fr; }
+  .stats { margin: 32px 0 38px; }
+  .stat-card { min-height: 145px; padding: 27px 20px 18px; }
+  .stat-card i { margin-bottom: 22px; }
+  .stat-card strong { font-size: 38px; }
+  .course-card { min-height: 145px; padding: 56px 20px 18px; }
+  .section-title { align-items: start; gap: 10px; flex-direction: column; }
+  .section-title h2 { font-size: 26px; }
+  .task-list { padding: 12px; }
+  .task-row { min-height: 0; padding: 17px 14px; gap: 12px; flex-direction: column; }
+  .task-row h3 { margin-top: 13px; font-size: 18px; }
+  .task-row .priority { align-self: flex-start; }
+  .board-heading h1, .calendar-inner h1, .archived-inner h1, .courses-heading h1 { font-size: 30px; }
+  .board-columns { grid-template-columns: 1fr; }
+  .calendar-layout { grid-template-columns: 1fr; gap: 28px; }
+  .calendar-card { padding: 18px 10px; }
+  .calendar-header h2 { font-size: 19px; }
+  .calendar-header button { min-width: 34px; height: 36px; margin-left: 3px; }
+  .calendar-header button:nth-child(2) { padding: 0 8px; }
+  .calendar-day, .calendar-empty { min-height: 52px; }
+  .calendar-day strong { font-size: 15px; }
+  .day-details article { margin-bottom: 12px; }
+  .archived-card { padding: 17px; }
+  .archived-actions { flex-wrap: wrap; }
+  .archived-actions button { flex: 1; justify-content: center; }
+  .modal-actions { flex-wrap: wrap; gap: 12px; }
+  .modal-actions span { display: none; }
+  .confirm-modal { padding: 24px 20px; }
+  .confirm-actions { flex-direction: column-reverse; }
+  .confirm-actions button { width: 100%; }
+}
